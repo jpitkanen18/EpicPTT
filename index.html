@@ -1,0 +1,105 @@
+<h1>Epic Push to talk bypass tool v1.0.0 HACKER420<h1>
+  <br>
+  <h1>Microphone: <h1 id="MicOn" style="color: red">OFF</h1></h1>
+<canvas id="canvas" width="150" height="300"></canvas>
+
+
+<style>
+    body {
+  color: #888;
+  background: #262626;
+  margin: 0;
+  padding: 40px;
+  text-align: center;
+  font-family: "helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+#canvas {
+  width: 150px;
+  height: 300px;
+  position: absolute;
+  top: 150px;
+  left: 45%;
+  text-align: center;
+}
+</style>
+
+<script>
+
+    const { ipcRenderer } = require('electron');
+    var $ = require('jquery');
+    const { keyboard, Key, mouse, left, right, up, down, screen } = require("@nut-tree/nut-js");
+
+    var micOn = false;
+    navigator.getUserMedia = navigator.getUserMedia ||
+  navigator.webkitGetUserMedia ||
+  navigator.mozGetUserMedia;
+if (navigator.getUserMedia) {
+  navigator.getUserMedia({
+      audio: true
+    },
+    async function(stream) {
+      audioContext = new AudioContext();
+      analyser = audioContext.createAnalyser();
+      microphone = audioContext.createMediaStreamSource(stream);
+      javascriptNode = audioContext.createScriptProcessor(2048, 1, 1);
+
+      analyser.smoothingTimeConstant = 0.8;
+      analyser.fftSize = 1024;
+
+      microphone.connect(analyser);
+      analyser.connect(javascriptNode);
+      javascriptNode.connect(audioContext.destination);
+
+      canvasContext = $("#canvas")[0].getContext("2d");
+      h1meme = $('#MicOn');
+
+      javascriptNode.onaudioprocess = async function() {
+          var array = new Uint8Array(analyser.frequencyBinCount);
+          analyser.getByteFrequencyData(array);
+          var values = 0;
+
+          var length = array.length;
+          for (var i = 0; i < length; i++) {
+            values += (array[i]);
+          }
+
+          var average = values / length;
+
+          console.log(Math.round(average - 40));
+          
+          if(Math.round(average - 40) > -20 && micOn === false){
+            let Data = {
+                message: true,
+            };
+            ipcRenderer.send('request-mainprocess-action', Data);
+            micOn = true;
+            h1meme.html("ON");
+            h1meme.css("color", "green");
+          } else if(Math.round(average - 40) < -20 && micOn === true) {
+            let Data = {
+                message: false,
+            };
+            ipcRenderer.send('request-mainprocess-action', Data);
+            micOn = false;
+            h1meme.html("OFF");
+            h1meme.css("color", "red");
+          }
+
+          
+          canvasContext.clearRect(0, 0, 150, 300);
+          canvasContext.fillStyle = '#BadA55';
+          canvasContext.fillRect(0, 300 - average, 150, 300);
+          canvasContext.fillStyle = '#262626';
+          canvasContext.font = "48px impact";
+          canvasContext.fillText(Math.round(average - 40), -2, 300);
+
+        } // end fn stream
+    },
+    function(err) {
+      console.log("The following error occured: " + err.name)
+    });
+} else {
+  console.log("getUserMedia not supported");
+}
+</script>

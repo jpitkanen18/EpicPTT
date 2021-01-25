@@ -1,0 +1,22 @@
+{
+  "name": "EpicPTT",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "rebuild": "electron-rebuild"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "8.0.0",
+    "electron-rebuild": "^2.3.4"
+  },
+  "dependencies": {
+    "@nut-tree/nut-js": "^1.5.0",
+    "jquery": "^3.5.1",
+    "node-abi": "^2.19.3"
+  }
+}
