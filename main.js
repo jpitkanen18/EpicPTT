@@ -35,9 +35,9 @@ const { keyboard, Key, mouse, left, right, up, down, screen } = require("@nut-tr
 
 ipcMain.on('request-mainprocess-action', (event, arg) => {
     if(arg.message === true){
-        keyboard.pressKey(Key.Right);
+        keyboard.pressKey(Key.LeftControl);
     } else {
-      keyboard.releaseKey(Key.Right);
+      keyboard.releaseKey(Key.LeftControl);
     }
     
 });

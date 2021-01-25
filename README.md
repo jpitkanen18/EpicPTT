@@ -1,6 +1,6 @@
 # Epic Push to talk bypass tool v1.0.0 HACKER420
 
-Epic tool to bypass discord push to talk (if bound to right arrow)
+Epic tool to bypass discord push to talk (if bound to left control)
 ~~Voice detection code nicked from stackoverflow, don't sue~~
 
 
