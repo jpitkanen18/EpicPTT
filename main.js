@@ -32,14 +32,17 @@ app.on('activate', () => {
 const {ipcMain} = require('electron');
 const { keyboard, Key, mouse, left, right, up, down, screen } = require("@nut-tree/nut-js");
 // Attach listener in the main process with the given ID
-
+var micOffTimer;
 ipcMain.on('request-mainprocess-action', (event, arg) => {
     if(arg.message === true){
-      keyboard.config.autoDelayMs = 0;
+      if(micOffTimer){
+        clearTimeout(micOffTimer);
+      }
       keyboard.pressKey(Key.LeftControl);
     } else {
-      keyboard.config.autoDelayMs = 1000;
-      keyboard.releaseKey(Key.LeftControl);
+      micOffTimer = setTimeout(function(){
+        keyboard.releaseKey(Key.LeftControl);
+      }, 500)
     }
     
 });
