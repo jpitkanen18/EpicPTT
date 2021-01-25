@@ -35,8 +35,10 @@ const { keyboard, Key, mouse, left, right, up, down, screen } = require("@nut-tr
 
 ipcMain.on('request-mainprocess-action', (event, arg) => {
     if(arg.message === true){
-        keyboard.pressKey(Key.LeftControl);
+      keyboard.config.autoDelayMs = 0;
+      keyboard.pressKey(Key.LeftControl);
     } else {
+      keyboard.config.autoDelayMs = 1000;
       keyboard.releaseKey(Key.LeftControl);
     }
     

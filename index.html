@@ -1,4 +1,4 @@
-<h1>Epic Push to talk bypass tool v1.0.0 HACKER420<h1>
+<h1>Epic Push to talk bypass tool v1.6.9 HACKER420<h1>
   <br>
   <h1>Microphone: <h1 id="MicOn" style="color: red">OFF</h1></h1>
 <canvas id="canvas" width="150" height="300"></canvas>
@@ -68,7 +68,8 @@ if (navigator.getUserMedia) {
 
           console.log(Math.round(average - 40));
           
-          if(Math.round(average - 40) > -20 && micOn === false){
+          if(Math.round(average - 40) > -31 && micOn === false){
+
             let Data = {
                 message: true,
             };
@@ -76,7 +77,9 @@ if (navigator.getUserMedia) {
             micOn = true;
             h1meme.html("ON");
             h1meme.css("color", "green");
-          } else if(Math.round(average - 40) < -20 && micOn === true) {
+
+          } else if(Math.round(average - 40) < -31 && micOn === true) {
+
             let Data = {
                 message: false,
             };
@@ -84,6 +87,7 @@ if (navigator.getUserMedia) {
             micOn = false;
             h1meme.html("OFF");
             h1meme.css("color", "red");
+
           }
 
           
